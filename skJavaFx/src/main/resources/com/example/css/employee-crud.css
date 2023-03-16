@@ -29,3 +29,8 @@
 .text{
     -fx-text-fill: -fx-primary-blue;
 }
+
+.background{
+    -fx-background-color: -fx-primary-background;
+    -fx-border-color: -fx-primary-blue;
+}
