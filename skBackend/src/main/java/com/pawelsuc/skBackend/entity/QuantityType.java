@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 public class QuantityType {
    @Id
-   @GeneratedValue(strategy = GenerationType.AUTO)
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idQuantityType;
 
     @Column

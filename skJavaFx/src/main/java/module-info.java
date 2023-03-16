@@ -17,4 +17,6 @@ module com.example.skjavafx {
     opens com.example.skjavafx.factory to javafx.fxml;
     exports com.example.skjavafx.table;
     opens com.example.skjavafx.table to javafx.fxml;
+    exports com.example.skjavafx.handler;
+    opens com.example.skjavafx.handler to javafx.fxml;
 }

@@ -1,6 +1,7 @@
 package com.pawelsuc.skBackend.entity;
 
 
+import com.pawelsuc.skBackend.dto.EmployeeDto;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -9,7 +10,7 @@ import lombok.Data;
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEmployee;
 
     @Column
@@ -21,5 +22,13 @@ public class Employee {
     private String salary;
     @OneToOne(mappedBy = "employee")
     private Operator operator;
+
+    public static Employee of(EmployeeDto dto){
+        Employee employee = new Employee();
+        employee.setFirstName(dto.getFirstName());
+        employee.setLastName(dto.getLastName());
+        employee.setSalary(dto.getSalary());
+        return employee;
+    }
 
 }

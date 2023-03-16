@@ -1,7 +1,7 @@
 package com.example.skjavafx.rest;
 
 import com.example.skjavafx.dto.OperatorAuthenticationResultDto;
-import org.springframework.http.ResponseEntity;
+import com.example.skjavafx.handler.AuthenticationResultHandler;
 import org.springframework.web.client.RestTemplate;
 import com.example.skjavafx.dto.OperatorCredentialsDto;
 

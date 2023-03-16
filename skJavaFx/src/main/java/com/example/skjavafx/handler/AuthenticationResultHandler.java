@@ -1,4 +1,4 @@
-package com.example.skjavafx.rest;
+package com.example.skjavafx.handler;
 
 
 import com.example.skjavafx.dto.OperatorAuthenticationResultDto;

@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class Operator {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idOperator;
 
     @Column

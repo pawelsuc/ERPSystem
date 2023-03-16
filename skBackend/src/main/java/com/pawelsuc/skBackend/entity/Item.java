@@ -9,7 +9,7 @@ import java.util.Set;
 @Data
 public class Item {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idItem;
 
     @Column
