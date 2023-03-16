@@ -35,6 +35,7 @@ public class AddEmployeeController implements Initializable {
     @FXML
     private Button saveButton;
 
+
     public AddEmployeeController() {
         popupFactory = new PopupFactory();
         employeeRestClient = new EmployeeRestClient();
@@ -54,6 +55,10 @@ public class AddEmployeeController implements Initializable {
             waitingPopup.show();
             employeeRestClient.saveEmployee(dto, () -> {
                 waitingPopup.close();
+                Stage infoPopup = popupFactory.createInfoPopup("Employee has been saved.", () -> {
+                    getStage().close();
+                });
+                infoPopup.show();
             });
 
         });

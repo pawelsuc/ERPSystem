@@ -28,6 +28,7 @@ public class EmployeeController implements Initializable {
     private static final String ADD_EMPLOYEE_FXML = "/com/example/skjavafx/add-employee.fxml";
 
     private final EmployeeRestClient employeeRestClient;
+    private ObservableList<EmployeeTableModel> data;
 
     @FXML
     private TableView<EmployeeTableModel> employeeTableView;
@@ -44,7 +45,12 @@ public class EmployeeController implements Initializable {
     @FXML
     private Button viewButton;
 
+    @FXML
+    private Button refreshButton;
+
+
     public EmployeeController() {
+        data=  FXCollections.observableArrayList();
         employeeRestClient = new EmployeeRestClient();
     }
 
@@ -52,7 +58,14 @@ public class EmployeeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeAddEmployeeButton();
+        initializeRefreshButton();
         initializeTableView();
+    }
+
+    private void initializeRefreshButton() {
+        refreshButton.setOnAction(x -> {
+            loadEmployeeData();
+        });
     }
 
     private void initializeAddEmployeeButton() {
@@ -90,16 +103,17 @@ public class EmployeeController implements Initializable {
 
         employeeTableView.getColumns().addAll(firstNameColumn,lastNameColumn,salaryColumn);
 
-        ObservableList<EmployeeTableModel> data = FXCollections.observableArrayList();
 
-        loadEmployeeData(data);
+
+        loadEmployeeData();
 
         employeeTableView.setItems(data);
     }
 
-    private void loadEmployeeData(ObservableList<EmployeeTableModel> data) {
+    private void loadEmployeeData() {
         Thread thread = new Thread(() -> {
             List<EmployeeDto> employees = employeeRestClient.getEmployees();
+            data.clear();
             data.addAll( employees.stream().map(EmployeeTableModel::of).collect(Collectors.toList()));
         });
         thread.start();
