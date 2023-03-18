@@ -55,6 +55,7 @@ public class ViewEmployeeController implements Initializable {
                 firstNameTextField.setText(dto.getFirstName());
                 lastNameTextField.setText(dto.getLastName());
                 salaryTextField.setText((dto.getSalary()));
+                handler.handle();
             });
         });
         thread.start();
