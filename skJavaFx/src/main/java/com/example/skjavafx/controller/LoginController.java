@@ -14,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -51,7 +50,6 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeExitButton();
         initializeLoginButton();
-
     }
 
     private void initializeLoginButton() {
@@ -71,15 +69,13 @@ public class LoginController implements Initializable {
         authenticator.authenticate(dto, (authenticationResult) -> {
             Platform.runLater(() -> {
                 waitingPopup.close();
-                if(authenticationResult.isAuthenticated()) {
+                if (authenticationResult.isAuthenticated()) {
                     openAppAndCloseLoginStage();
                 } else {
                     showIncorrectCredentialsMessage();
-
                 }
             });
         });
-
     }
 
     private void showIncorrectCredentialsMessage() {
@@ -92,7 +88,7 @@ public class LoginController implements Initializable {
         Parent appRoot = null;
 
         try {
-           appRoot = FXMLLoader.load(getClass().getResource(APP_FXML));
+            appRoot = FXMLLoader.load(getClass().getResource(APP_FXML));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -109,8 +105,7 @@ public class LoginController implements Initializable {
         });
     }
 
-
     private Stage getStage() {
-        return (Stage)loginAnchorPane.getScene().getWindow();
+        return (Stage) loginAnchorPane.getScene().getWindow();
     }
 }

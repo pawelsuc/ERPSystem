@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,6 +29,13 @@ public class EmployeeController {
                 .map(EmployeeDto::of)
                 .collect(Collectors.toList());
     }
+    @GetMapping("/employees/{idEmployee}")
+    public EmployeeDto getEmployee(@PathVariable Long idEmployee) {
+        Optional<Employee> optionalEmployee = employeeRepository.findById(idEmployee);
+
+        return EmployeeDto.of(optionalEmployee.get());
+    }
+
     @DeleteMapping("/employees")
     ResponseEntity deleteEmployee(@RequestBody Long idEmployee) {
         employeeRepository.deleteById(idEmployee);
