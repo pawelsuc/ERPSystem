@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 public class EmployeeController implements Initializable {
     private static final String ADD_EMPLOYEE_FXML = "/com/example/skjavafx/add-employee.fxml";
     private static final String VIEW_EMPLOYEE_FXML = "/com/example/skjavafx/view-employee.fxml";
+    private static final String EDIT_EMPLOYEE_FXML = "/com/example/skjavafx/edit-employee.fxml";
 
     private final EmployeeRestClient employeeRestClient;
     private final PopupFactory popupFactory;
@@ -64,9 +65,42 @@ public class EmployeeController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeAddEmployeeButton();
         initializeViewEmployeeButton();
+        initializeEditEmployeeButton();
         initializeRefreshButton();
         initializeTableView();
 
+    }
+
+    private void initializeEditEmployeeButton() {
+        editButton.setOnAction(x -> {
+            EmployeeTableModel selectedEmploee = employeeTableView.getSelectionModel().getSelectedItem();
+            if(selectedEmploee != null) {
+
+                try {
+                    Stage waitingPopup = popupFactory.createWaitingPopup("Loading employee data...");
+                    waitingPopup.show();
+                    Stage editEmployeeStage = createEditEmployeeStage();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(EDIT_EMPLOYEE_FXML));
+                    Scene scene = new Scene(loader.load(), 500, 400);
+                    editEmployeeStage.setScene(scene);
+                    EditEmployeeController controller = loader.getController();
+                    controller.loadEmployeeData(selectedEmploee.getIdEmployee(), () -> {
+                        waitingPopup.close();
+                        editEmployeeStage.show();
+                    });
+                } catch (IOException e) {
+                    throw new RuntimeException("Can't load fxml file: " + EDIT_EMPLOYEE_FXML);
+                }
+
+            }
+        });
+    }
+
+    private Stage createEditEmployeeStage() {
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        return stage;
     }
 
     private void initializeViewEmployeeButton() {

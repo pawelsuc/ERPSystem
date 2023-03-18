@@ -31,4 +31,10 @@ public class Employee {
         return employee;
     }
 
+
+    public void updateEmployee(EmployeeDto dto) {
+        this.setFirstName(dto.getFirstName());
+        this.setLastName(dto.getLastName());
+        this.setSalary(dto.getSalary());
+    }
 }
