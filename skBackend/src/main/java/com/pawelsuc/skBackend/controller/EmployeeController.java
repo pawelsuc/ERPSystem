@@ -19,11 +19,11 @@ public class EmployeeController {
 
     @PostMapping("/employees")
     EmployeeDto saveOrUpdateEmployee(@RequestBody EmployeeDto dto) {
-        if(dto.getIdEmployee() == null) {
+        if (dto.getIdEmployee() == null) {
             return EmployeeDto.of(employeeRepository.save(Employee.of(dto)));
         } else {
             Optional<Employee> optionalEmplyee = employeeRepository.findById(dto.getIdEmployee());
-            if(optionalEmplyee.isPresent()){
+            if (optionalEmplyee.isPresent()) {
                 Employee employee = optionalEmplyee.get();
                 employee.updateEmployee(dto);
                 return EmployeeDto.of(employeeRepository.save(employee));
@@ -40,6 +40,7 @@ public class EmployeeController {
                 .map(EmployeeDto::of)
                 .collect(Collectors.toList());
     }
+
     @GetMapping("/employees/{idEmployee}")
     public EmployeeDto getEmployee(@PathVariable Long idEmployee) throws InterruptedException {
         Thread.sleep(500);
@@ -48,8 +49,8 @@ public class EmployeeController {
         return EmployeeDto.of(optionalEmployee.get());
     }
 
-    @DeleteMapping("/employees")
-    ResponseEntity deleteEmployee(@RequestBody Long idEmployee) {
+    @DeleteMapping("/employees/{idEmployee}")
+    ResponseEntity deleteEmployee(@PathVariable Long idEmployee) {
         employeeRepository.deleteById(idEmployee);
         return ResponseEntity.ok().build();
     }

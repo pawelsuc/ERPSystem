@@ -1,6 +1,7 @@
 package com.example.skjavafx.rest;
 
 import com.example.skjavafx.dto.EmployeeDto;
+import com.example.skjavafx.handler.DeletedEmployeeHandler;
 import com.example.skjavafx.handler.SavedEmployeeHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
+
+
 
 public class EmployeeRestClient {
     private static final String EMPLOYEES_URL = "http://localhost:8080/employees";
@@ -42,5 +45,10 @@ public class EmployeeRestClient {
 //            TODO implement
             throw new RuntimeException("Can't load employee");
         }
+    }
+
+    public void deleteEmployee(Long idEmployee, DeletedEmployeeHandler handler) {
+        restTemplate.delete(EMPLOYEES_URL + "/" + idEmployee);
+        handler.handle();
     }
 }
