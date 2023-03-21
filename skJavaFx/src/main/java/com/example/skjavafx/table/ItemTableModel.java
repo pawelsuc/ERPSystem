@@ -1,5 +1,6 @@
 package com.example.skjavafx.table;
 
+import com.example.skjavafx.dto.ItemDto;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -14,6 +15,10 @@ public class ItemTableModel {
         this.name = new SimpleStringProperty(name);
         this.quantity = new SimpleDoubleProperty(quantity);
         this.quantityType = new SimpleStringProperty(quantityType);
+    }
+
+    public static ItemTableModel of(ItemDto dto) {
+        return new ItemTableModel(dto.getIdItem(), dto.getName(), dto.getQuantity(), dto.getQuantityType());
     }
 
     public Long getIdItem() {
