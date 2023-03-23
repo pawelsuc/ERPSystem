@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class WarehouseModuleDto {
-    private WareHouseDto selectedWarehouse;
-    private List<WareHouseDto> wareHouseDtoList;
-    private List<ItemDto> itemList;
+    private WarehouseDto selectedWarehouse;
+    private List<WarehouseDto> warehouseDtoList;
+    private List<ItemDto> itemDtoList;
 }

@@ -7,7 +7,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class WarehouseRestClient {
 
-    private static final String WAREHOUSE_MODULE_DATA_URL = "https://localhost:8080/warehouse_module_data";
+    private static final String WAREHOUSE_MODULE_DATA_URL = "http://localhost:8080/warehouse_module_data";
     private final RestTemplate restTemplate;
 
     public WarehouseRestClient() {

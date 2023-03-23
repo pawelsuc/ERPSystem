@@ -4,7 +4,7 @@ package com.example.skjavafx.dto;
 import lombok.Data;
 
 @Data
-public class WareHouseDto {
+public class WarehouseDto {
     private Long idWarehouse;
     private String name;
 

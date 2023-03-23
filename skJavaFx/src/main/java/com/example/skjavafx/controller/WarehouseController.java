@@ -1,13 +1,17 @@
 package com.example.skjavafx.controller;
 
-import com.example.skjavafx.dto.ItemDto;
+import com.example.skjavafx.dto.WarehouseDto;
+import com.example.skjavafx.dto.WarehouseModuleDto;
 import com.example.skjavafx.rest.ItemRestClient;
+import com.example.skjavafx.rest.WarehouseRestClient;
 import com.example.skjavafx.table.ItemTableModel;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -39,9 +43,14 @@ public class WarehouseController implements Initializable {
     private BorderPane warehouseBorderPane;
 
     @FXML
+    private ComboBox<WarehouseDto> warehouseComboBox;
+
+    @FXML
     private TableView<ItemTableModel> warehouseTableView;
 
     private final ItemRestClient itemRestClient;
+
+    private final WarehouseRestClient warehouseRestClient;
 
     private ObservableList<ItemTableModel> data;
 
@@ -49,12 +58,26 @@ public class WarehouseController implements Initializable {
     public WarehouseController() {
         itemRestClient = new ItemRestClient();
         data = FXCollections.observableArrayList();
+        warehouseRestClient = new WarehouseRestClient();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeTableView();
+        initializeComboBox();
 
+    }
+
+    private void initializeComboBox() {
+        warehouseComboBox.valueProperty().addListener(((observable, oldValue, newValue) -> {
+            if(newValue == null) {
+                return;
+            }
+            if(!newValue.equals(oldValue) && oldValue != null) {
+                WarehouseDto wareHouseDto = warehouseComboBox.getSelectionModel().getSelectedItem();
+                loadItemData(wareHouseDto);
+            }
+        }));
     }
 
     private void initializeTableView() {
@@ -79,11 +102,32 @@ public class WarehouseController implements Initializable {
 
     private void loadItemData() {
         Thread thread = new Thread(() -> {
-            List<ItemDto> items = itemRestClient.getItems();
+            WarehouseModuleDto warehouseModuleDto = warehouseRestClient.getWarehouseModuleData();
             data.clear();
-            data.addAll(items.stream().map(ItemTableModel::of).collect(Collectors.toList()));
+            setWarehouseComboBoxItems(warehouseModuleDto);
+            data.addAll(warehouseModuleDto.getItemDtoList().stream().map(ItemTableModel::of).collect(Collectors.toList()));
         });
         thread.start();
+    }
 
+    private void loadItemData(WarehouseDto warehouseDto) {
+        Thread thread = new Thread(() -> {
+            WarehouseModuleDto warehouseModuleDto =
+                    warehouseRestClient.getWarehouseModuleData(warehouseDto.getIdWarehouse());
+            data.clear();
+            setWarehouseComboBoxItems(warehouseModuleDto);
+            data.addAll(warehouseModuleDto.getItemDtoList().stream().map(ItemTableModel::of).collect(Collectors.toList()));
+        });
+        thread.start();
+    }
+
+    private void setWarehouseComboBoxItems(WarehouseModuleDto warehouseModuleDto) {
+        List<WarehouseDto> wareHouseDtoList = warehouseModuleDto.getWarehouseDtoList();
+        ObservableList<WarehouseDto> warehouseComboBoxItems = FXCollections.observableArrayList();
+        warehouseComboBoxItems.addAll(wareHouseDtoList);
+        Platform.runLater(() -> {
+            warehouseComboBox.setItems(warehouseComboBoxItems);
+            warehouseComboBox.getSelectionModel().select(wareHouseDtoList.indexOf(warehouseModuleDto.getSelectedWarehouse()));
+        });
     }
 }

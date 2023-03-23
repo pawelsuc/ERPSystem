@@ -3,7 +3,7 @@ package com.pawelsuc.skBackend.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
@@ -14,7 +14,8 @@ public class Warehouse {
 
     @Column
     private String name;
-    @ManyToMany(mappedBy = "warehouses")
-    Set<Item> items;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "warehouse")
+    private List<Item> items;
 
 }
