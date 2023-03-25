@@ -1,6 +1,8 @@
 package com.example.skjavafx.rest;
 
 import com.example.skjavafx.dto.ItemDto;
+import com.example.skjavafx.dto.ItemSaveDto;
+import com.example.skjavafx.handler.ProcessFinishedHandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,5 +22,8 @@ public class ItemRestClient {
     public List<ItemDto> getItems() {
         ResponseEntity<ItemDto[]> itemResponseEntity = restTemplate.getForEntity(ITEMS_URL, ItemDto[].class);
         return Arrays.asList(itemResponseEntity.getBody());
+    }
+
+    public void saveItem(ItemSaveDto dto, ProcessFinishedHandler processFinishedHandler) {
     }
 }
