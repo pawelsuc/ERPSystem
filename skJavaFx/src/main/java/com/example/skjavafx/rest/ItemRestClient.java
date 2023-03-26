@@ -3,6 +3,7 @@ package com.example.skjavafx.rest;
 import com.example.skjavafx.dto.ItemDto;
 import com.example.skjavafx.dto.ItemSaveDto;
 import com.example.skjavafx.handler.ProcessFinishedHandler;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,6 +25,12 @@ public class ItemRestClient {
         return Arrays.asList(itemResponseEntity.getBody());
     }
 
-    public void saveItem(ItemSaveDto dto, ProcessFinishedHandler processFinishedHandler) {
+    public void saveItem(ItemSaveDto dto, ProcessFinishedHandler handler) {
+        ResponseEntity<ItemDto> responseEntity = restTemplate.postForEntity(ITEMS_URL, dto, ItemDto.class);
+        if(HttpStatus.OK.equals(responseEntity.getStatusCode())){
+            handler.handle();
+        } else {
+            throw new RuntimeException("Can't save dto: " + dto);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.pawelsuc.skBackend.controller;
 
+import com.pawelsuc.skBackend.dto.QuantityTypeDto;
 import com.pawelsuc.skBackend.entity.QuantityType;
 import com.pawelsuc.skBackend.repository.QuantityTypeRepository;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,8 +22,8 @@ public class QuantityTypeController {
     }
 
     @GetMapping("/quantity_types")
-    List<QuantityType> listQuantityTypes() {
-        return quantityTypeRepository.findAll();
+    List<QuantityTypeDto> listQuantityTypes() {
+        return quantityTypeRepository.findAll().stream().map(QuantityTypeDto::of).collect(Collectors.toList());
 
     }
     @DeleteMapping("/quantity_types")

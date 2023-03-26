@@ -1,5 +1,6 @@
 package com.pawelsuc.skBackend.entity;
 
+import com.pawelsuc.skBackend.dto.ItemSaveDto;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -28,4 +29,10 @@ public class Item {
     private Warehouse warehouse;
 
 
+    public static Item of(ItemSaveDto dto) {
+        Item item = new Item();
+        item.setName(dto.getName());
+        item.setQuantity(dto.getQuantity());
+        return item;
+    }
 }

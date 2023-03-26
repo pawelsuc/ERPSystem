@@ -9,14 +9,20 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -24,6 +30,7 @@ import java.util.stream.Collectors;
 
 public class WarehouseController implements Initializable {
 
+    private static final String ADD_ITEM_FXML ="/com/example/skjavafx/add-item.fxml";
     @FXML
     private Button addButton;
 
@@ -65,7 +72,33 @@ public class WarehouseController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeTableView();
         initializeComboBox();
+        initializeAddItemButton();
 
+    }
+
+    private void initializeAddItemButton() {
+        addButton.setOnAction(x-> {
+            try {
+                Stage stage = createItemCrudStage();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(ADD_ITEM_FXML));
+                Scene scene = new Scene(loader.load(), 500, 400);
+                stage.setScene(scene);
+                AddItemController controller = loader.getController();
+                WarehouseDto selectedWarehouseDto = warehouseComboBox.getSelectionModel().getSelectedItem();
+                controller.setWarehouseDto(selectedWarehouseDto);
+                controller.loadQuantityTypes();
+                stage.show();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    private Stage createItemCrudStage() {
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        return stage;
     }
 
     private void initializeComboBox() {
