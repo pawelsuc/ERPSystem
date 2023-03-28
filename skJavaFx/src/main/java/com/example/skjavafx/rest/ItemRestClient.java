@@ -33,4 +33,9 @@ public class ItemRestClient {
             throw new RuntimeException("Can't save dto: " + dto);
         }
     }
+
+    public ItemDto getItem(Long idItem) {
+        ResponseEntity<ItemDto> responseEntity = restTemplate.getForEntity(ITEMS_URL + "/" + idItem, ItemDto.class);
+        return responseEntity.getBody();
+    }
 }

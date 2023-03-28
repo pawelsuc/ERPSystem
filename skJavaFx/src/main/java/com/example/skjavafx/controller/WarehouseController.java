@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 public class WarehouseController implements Initializable {
 
     private static final String ADD_ITEM_FXML ="/com/example/skjavafx/add-item.fxml";
+    private static final String VIEW_ITEM_FXML ="/com/example/skjavafx/view-item.fxml";
     @FXML
     private Button addButton;
 
@@ -69,11 +70,33 @@ public class WarehouseController implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL location, ResourceBundle resources) {
         initializeTableView();
         initializeComboBox();
         initializeAddItemButton();
+        initializeViewItemButton();
 
+    }
+
+    private void initializeViewItemButton() {
+        viewButton.setOnAction(x-> {
+            ItemTableModel selectedItem = warehouseTableView.getSelectionModel().getSelectedItem();
+            if(selectedItem == null) {
+                return;
+
+            }
+            try {
+                Stage stage = createItemCrudStage();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEW_ITEM_FXML));
+                Scene scene = new Scene(loader.load(), 500, 400);
+                stage.setScene(scene);
+                ViewItemController controller = loader.getController();
+                controller.loadItemData(selectedItem.getIdItem());
+                stage.show();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private void initializeAddItemButton() {

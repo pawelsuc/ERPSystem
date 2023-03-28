@@ -1,7 +1,9 @@
 package com.pawelsuc.skBackend.controller;
 
+import com.pawelsuc.skBackend.dto.EmployeeDto;
 import com.pawelsuc.skBackend.dto.ItemDto;
 import com.pawelsuc.skBackend.dto.ItemSaveDto;
+import com.pawelsuc.skBackend.entity.Employee;
 import com.pawelsuc.skBackend.entity.Item;
 import com.pawelsuc.skBackend.repository.ItemRepository;
 import com.pawelsuc.skBackend.service.ItemService;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,6 +35,13 @@ public class ItemController {
                 .collect(Collectors.toList());
 
     }
+    @GetMapping("/items/{idItem}")
+    public ItemDto getItem(@PathVariable Long idItem) throws InterruptedException {
+        Optional<Item> optionalItem = itemRepository.findById(idItem);
+
+        return ItemDto.of(optionalItem.get());
+    }
+
     @DeleteMapping("/items")
     public ResponseEntity deleteItem(@RequestBody Long idItem) {
         itemRepository.deleteById(idItem);
