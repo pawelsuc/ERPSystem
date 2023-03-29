@@ -3,7 +3,6 @@ package com.example.skjavafx.controller;
 import com.example.skjavafx.dto.ItemSaveDto;
 import com.example.skjavafx.dto.QuantityTypeDto;
 import com.example.skjavafx.dto.WarehouseDto;
-import com.example.skjavafx.handler.ProcessFinishedHandler;
 import com.example.skjavafx.rest.ItemRestClient;
 import com.example.skjavafx.rest.QuantityTypeRestClient;
 import javafx.application.Platform;
@@ -34,7 +33,7 @@ public class AddItemController implements Initializable {
     private ComboBox<QuantityTypeDto> quantityTypeComboBox;
 
     @FXML
-    private TextField quatityTextField;
+    private TextField quantityTextField;
 
     @FXML
     private Button saveButton;
@@ -60,10 +59,10 @@ public class AddItemController implements Initializable {
     private void initializeSaveButton() {
         saveButton.setOnAction(x -> {
             String name = nameTextField.getText();
-            double quantity = Double.parseDouble(quatityTextField.getText());
+            double quantity = Double.parseDouble(quantityTextField.getText());
             Long idQuantityType = quantityTypeComboBox.getSelectionModel().getSelectedItem().getIdQuantityType();
             Long idWarehouse = selectedWarehouseDto.getIdWarehouse();
-            ItemSaveDto dto = new ItemSaveDto(name, quantity, idQuantityType, idWarehouse);
+            ItemSaveDto dto = new ItemSaveDto(null, name, quantity, idQuantityType, idWarehouse);
             Thread thread = new Thread(() -> {
                 itemRestClient.saveItem(dto, () ->{
                     Platform.runLater(() -> {

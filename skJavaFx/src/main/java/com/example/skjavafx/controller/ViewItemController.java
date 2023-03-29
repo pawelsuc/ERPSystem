@@ -26,7 +26,7 @@ public class ViewItemController implements Initializable {
     private ComboBox<String> quantityTypeComboBox;
 
     @FXML
-    private TextField quatityTextField;
+    private TextField quantityTextField;
 
     @FXML
     private BorderPane viewItemBorderPane;
@@ -49,7 +49,7 @@ public class ViewItemController implements Initializable {
             ItemDto itemDto = itemRestClient.getItem(idItem);
             Platform.runLater(() -> {
                 nameTextField.setText(itemDto.getName());
-                quatityTextField.setText(itemDto.getQuantity().toString());
+                quantityTextField.setText(itemDto.getQuantity().toString());
                 quantityTypeComboBox.setItems(FXCollections.observableArrayList(itemDto.getQuantityType()));
                 quantityTypeComboBox.getSelectionModel().select(0);
 
@@ -63,7 +63,7 @@ public class ViewItemController implements Initializable {
 
     private void initializeControls() {
         nameTextField.setEditable(false);
-        quatityTextField.setEditable(false);
+        quantityTextField.setEditable(false);
         quantityTypeComboBox.setEditable(false);
 
     }

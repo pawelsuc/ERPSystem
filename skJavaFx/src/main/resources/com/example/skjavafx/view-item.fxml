@@ -16,7 +16,7 @@
             <Label styleClass="text" text="Name" />
             <TextField fx:id="nameTextField" />
             <Label styleClass="text" text="Quantity" />
-            <TextField fx:id="quatityTextField" />
+            <TextField fx:id="quantityTextField" />
             <Label styleClass="text" text="Quantity Type" />
             <ComboBox fx:id="quantityTypeComboBox" prefWidth="200.0" />
          </children>

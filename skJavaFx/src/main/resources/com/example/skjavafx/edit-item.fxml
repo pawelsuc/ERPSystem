@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="addItemBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" styleClass="background" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.skjavafx.controller.AddItemController">
+<BorderPane fx:id="editItemBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" styleClass="background" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.skjavafx.controller.EditItemController">
    <center>
       <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
@@ -38,7 +38,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" styleClass="save-button" text="Save" />
+            <Button fx:id="editButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" styleClass="save-button" text="Edit" />
             <Button fx:id="cancelButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" styleClass="cancel-button" text="Cancel" GridPane.columnIndex="1" />
          </children>
          <padding>
@@ -47,7 +47,7 @@
       </GridPane>
    </bottom>
    <top>
-      <Label styleClass="title" text="Add Item" BorderPane.alignment="CENTER">
+      <Label styleClass="title" text="Edit Item" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets top="10.0" />
          </BorderPane.margin>

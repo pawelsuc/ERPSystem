@@ -1,6 +1,7 @@
 package com.example.skjavafx.rest;
 
 import com.example.skjavafx.dto.ItemDto;
+import com.example.skjavafx.dto.ItemEditViewDto;
 import com.example.skjavafx.dto.ItemSaveDto;
 import com.example.skjavafx.handler.ProcessFinishedHandler;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import java.util.List;
 public class ItemRestClient {
 
     private static final String ITEMS_URL = "http://localhost:8080/items";
+    private static final String ITEM_EDIT_DATA_URL = "http://localhost:8080/item_edit_data";
     private final RestTemplate restTemplate;
 
 
@@ -36,6 +38,11 @@ public class ItemRestClient {
 
     public ItemDto getItem(Long idItem) {
         ResponseEntity<ItemDto> responseEntity = restTemplate.getForEntity(ITEMS_URL + "/" + idItem, ItemDto.class);
+        return responseEntity.getBody();
+    }
+
+    public ItemEditViewDto getEditItemData(Long idItem) {
+        ResponseEntity<ItemEditViewDto> responseEntity = restTemplate.getForEntity(ITEM_EDIT_DATA_URL + "/" + idItem, ItemEditViewDto.class);
         return responseEntity.getBody();
     }
 }

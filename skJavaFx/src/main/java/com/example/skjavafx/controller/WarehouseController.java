@@ -30,8 +30,9 @@ import java.util.stream.Collectors;
 
 public class WarehouseController implements Initializable {
 
-    private static final String ADD_ITEM_FXML ="/com/example/skjavafx/add-item.fxml";
-    private static final String VIEW_ITEM_FXML ="/com/example/skjavafx/view-item.fxml";
+    private static final String ADD_ITEM_FXML = "/com/example/skjavafx/add-item.fxml";
+    private static final String VIEW_ITEM_FXML = "/com/example/skjavafx/view-item.fxml";
+    private static final String EDIT_ITEM_FXML = "/com/example/skjavafx/edit-item.fxml";
     @FXML
     private Button addButton;
 
@@ -75,13 +76,35 @@ public class WarehouseController implements Initializable {
         initializeComboBox();
         initializeAddItemButton();
         initializeViewItemButton();
+        initializeEditItemButton();
 
     }
 
-    private void initializeViewItemButton() {
-        viewButton.setOnAction(x-> {
+    private void initializeEditItemButton() {
+        editButton.setOnAction(x -> {
             ItemTableModel selectedItem = warehouseTableView.getSelectionModel().getSelectedItem();
-            if(selectedItem == null) {
+            if (selectedItem == null) {
+                return;
+            }
+            try {
+                Stage stage = createItemCrudStage();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(EDIT_ITEM_FXML));
+                Scene scene = new Scene(loader.load(), 500, 400);
+                stage.setScene(scene);
+                EditItemController controller = loader.getController();
+                controller.loadItemData(selectedItem.getIdItem());
+                stage.show();
+
+            } catch (IOException e) {
+                throw new RuntimeException("Can't load fxml file");
+            }
+        });
+    }
+
+    private void initializeViewItemButton() {
+        viewButton.setOnAction(x -> {
+            ItemTableModel selectedItem = warehouseTableView.getSelectionModel().getSelectedItem();
+            if (selectedItem == null) {
                 return;
 
             }
@@ -100,7 +123,7 @@ public class WarehouseController implements Initializable {
     }
 
     private void initializeAddItemButton() {
-        addButton.setOnAction(x-> {
+        addButton.setOnAction(x -> {
             try {
                 Stage stage = createItemCrudStage();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(ADD_ITEM_FXML));
@@ -126,10 +149,10 @@ public class WarehouseController implements Initializable {
 
     private void initializeComboBox() {
         warehouseComboBox.valueProperty().addListener(((observable, oldValue, newValue) -> {
-            if(newValue == null) {
+            if (newValue == null) {
                 return;
             }
-            if(!newValue.equals(oldValue) && oldValue != null) {
+            if (!newValue.equals(oldValue) && oldValue != null) {
                 WarehouseDto wareHouseDto = warehouseComboBox.getSelectionModel().getSelectedItem();
                 loadItemData(wareHouseDto);
             }
