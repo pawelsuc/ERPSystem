@@ -33,6 +33,7 @@ public class WarehouseController implements Initializable {
     private static final String ADD_ITEM_FXML = "/com/example/skjavafx/add-item.fxml";
     private static final String VIEW_ITEM_FXML = "/com/example/skjavafx/view-item.fxml";
     private static final String EDIT_ITEM_FXML = "/com/example/skjavafx/edit-item.fxml";
+    private static final String DELETE_ITEM_VIEW = "/com/example/skjavafx/delete-item.fxml";
     @FXML
     private Button addButton;
 
@@ -77,7 +78,36 @@ public class WarehouseController implements Initializable {
         initializeAddItemButton();
         initializeViewItemButton();
         initializeEditItemButton();
+        initializeDeleteButton();
+        initializeRefreshButton();
 
+    }
+
+    private void initializeRefreshButton() {
+        refreshButton.setOnAction(x -> {
+            loadItemData();
+        });
+    }
+
+    private void initializeDeleteButton() {
+        deleteButton.setOnAction(x -> {
+            ItemTableModel selectedItem = warehouseTableView.getSelectionModel().getSelectedItem();
+            if(selectedItem == null){
+                return;
+            }
+            try {
+                Stage stage = createItemCrudStage();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(DELETE_ITEM_VIEW));
+                Scene scene = new Scene(loader.load(), 400, 200);
+                stage.setScene(scene);
+                DeleteItemController controller = loader.getController();
+                controller.loadItem(selectedItem);
+                stage.show();
+
+            } catch (IOException e){
+                throw new RuntimeException("Can't load fxml file: " + DELETE_ITEM_VIEW);
+            }
+        });
     }
 
     private void initializeEditItemButton() {
@@ -203,8 +233,8 @@ public class WarehouseController implements Initializable {
     private void setWarehouseComboBoxItems(WarehouseModuleDto warehouseModuleDto) {
         List<WarehouseDto> wareHouseDtoList = warehouseModuleDto.getWarehouseDtoList();
         ObservableList<WarehouseDto> warehouseComboBoxItems = FXCollections.observableArrayList();
-        warehouseComboBoxItems.addAll(wareHouseDtoList);
         Platform.runLater(() -> {
+            warehouseComboBoxItems.addAll(wareHouseDtoList);
             warehouseComboBox.setItems(warehouseComboBoxItems);
             warehouseComboBox.getSelectionModel().select(wareHouseDtoList.indexOf(warehouseModuleDto.getSelectedWarehouse()));
         });

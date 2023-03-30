@@ -2,6 +2,7 @@ package com.example.skjavafx.rest;
 
 import com.example.skjavafx.dto.OperatorAuthenticationResultDto;
 import com.example.skjavafx.handler.AuthenticationResultHandler;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import com.example.skjavafx.dto.OperatorCredentialsDto;
 
@@ -30,15 +31,15 @@ public class AuthenticatorImpl implements Authenticator {
 
     private void processAuthentication(OperatorCredentialsDto operatorCredentialsDto,
                                               AuthenticationResultHandler authenticationResultHandler) {
-//        ResponseEntity<OperatorAuthenticationResultDto> responseEntity = restTemplate.postForEntity(AUTHENTICATION_URL, operatorCredentialsDto,
-//                OperatorAuthenticationResultDto.class);
-        OperatorAuthenticationResultDto dto = new OperatorAuthenticationResultDto();
-        dto.setAuthenticated(true);
-        dto.setFirstName("Paweł");
-        dto.setLastName("Suchań");
-        dto.setIdOperator(1L);
+        ResponseEntity<OperatorAuthenticationResultDto> responseEntity = restTemplate.postForEntity(AUTHENTICATION_URL, operatorCredentialsDto,
+                OperatorAuthenticationResultDto.class);
+//        OperatorAuthenticationResultDto dto = new OperatorAuthenticationResultDto();
+//        dto.setAuthenticated(true);
+//        dto.setFirstName("Paweł");
+//        dto.setLastName("Suchań");
+//        dto.setIdOperator(1L);
 
-        authenticationResultHandler.handle(dto);
+        authenticationResultHandler.handle(responseEntity.getBody());
 
         };
     }
