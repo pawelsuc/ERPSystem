@@ -22,9 +22,9 @@ public class EmployeeController {
         if (dto.getIdEmployee() == null) {
             return EmployeeDto.of(employeeRepository.save(Employee.of(dto)));
         } else {
-            Optional<Employee> optionalEmplyee = employeeRepository.findById(dto.getIdEmployee());
-            if (optionalEmplyee.isPresent()) {
-                Employee employee = optionalEmplyee.get();
+            Optional<Employee> optionalEmployee = employeeRepository.findById(dto.getIdEmployee());
+            if (optionalEmployee.isPresent()) {
+                Employee employee = optionalEmployee.get();
                 employee.updateEmployee(dto);
                 return EmployeeDto.of(employeeRepository.save(employee));
             } else {
