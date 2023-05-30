@@ -40,6 +40,7 @@ public class AuthenticatorImpl implements Authenticator {
 //        dto.setIdOperator(1L);
 
         authenticationResultHandler.handle(responseEntity.getBody());
+//        authenticationResultHandler.handle(dto);
 
         };
     }
